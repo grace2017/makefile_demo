@@ -1,0 +1,2 @@
+# makefile_demo
+模拟Makefile在实际工作中的一个demo
