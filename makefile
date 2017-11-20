@@ -1,30 +1,28 @@
-.PHONY: all clean test
+.PHONY: all clean build_module clean_module
 
 TARGET := computer
-TARGET_DEP_OBJS = calc.o mouse.o keyboard.o play.o
+TARGET_DEP_OBJS := calc/calc.o keyboard/keyboard.o mouse/mouse.o play.o
 
-SOURCES := $(wildcard *.c)
-OBJS := $(SOURCES:.c=.o)
-DFILES := $(SOURCES:.c=.d)
+ROOT_PATH := $(shell pwd)
+SUBDIRS := $(shell ls -F | grep '/$$')
 
-all: $(TARGET) $(DFILES)
-
-#不能在生成.d文件之前引用
-include $(DFILES)
-
-$(TARGET): $(OBJS)
+#-----------------------------------------------------
+$(TARGET): $(TARGET_DEP_OBJS)
 	gcc -o $@ $^
-
-%.d: %.c
-	gcc -MM $^ > $@
-
-%.o:
-	gcc -c -o $@ $(filter %.c, $^)	
 
 clean:
 	rm -rf *.o
-	rm -rf *.d
 	rm -rf $(TARGET)
 
-test: $(DFILES)
+build_module:
+	@for subdir in $(SUBDIRS); do	\
+		$(MAKE) -C $$subdir;    \
+	done
+clean_module:
+	@for subdir in $(SUBDIRS); do	\
+		cd $$subdir;   		\
+		rm -rf *.o;		\
+		rm -rf *.d;		\
+		cd $(ROOT_PATH);	\
+	done
 	
