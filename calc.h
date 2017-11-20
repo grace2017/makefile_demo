@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#define CALC_VERSION 3.0
+
 void calc_init();
 
 #endif

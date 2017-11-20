@@ -2,5 +2,5 @@
 
 void calc_init()
 {
-	printf("calc init... \n");
+	printf("[ %f ] calc init... \n", CALC_VERSION);
 }
