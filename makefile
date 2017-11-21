@@ -1,4 +1,4 @@
-.PHONY: all clean build_module clean_module test
+.PHONY: all clean create_module build_module clean_module test
 
 TARGET := computer
 
@@ -23,6 +23,13 @@ clean:
 	rm -rf $(TARGET)
 	rm -rf $(OBJS_PATH)/*.o
 	rm -rf $(DEPS_PATH)/*.d
+
+create_module:
+	if [ -z "$$module_name" ]; then
+		echo "1"
+	else
+		echo "2"
+	fi	
 
 build_module:
 	@for subdir in $(SUBDIRS); do	\
