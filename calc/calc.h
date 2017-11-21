@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define CALC_VERSION 4.0
+#define CALC_VERSION 1.0
 
 void calc_init();
 

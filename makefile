@@ -1,10 +1,11 @@
 .PHONY: all clean build_module clean_module test
 
 TARGET := computer
-TARGET_DEP_OBJS := calc/calc.o keyboard/keyboard.o mouse/mouse.o play.o
 
 export ROOT_PATH := $(shell pwd)
 export OBJS_PATH := $(addsuffix /objs, $(ROOT_PATH))
+
+TARGET_DEP_OBJS := $(wildcard $(OBJS_PATH)/*.o)
 
 SUBDIRS := $(shell ls -F | grep '/$$')
 SUBDIRS := $(filter-out objs/, $(SUBDIRS))
