@@ -1,4 +1,19 @@
-.PHONY: all clean create_module build_module clean_module test
+#---------------------------------
+# 主控Makefile
+# 
+# zhangyu
+# 644735414@qq.com
+# 2017-11-19 
+#---------------------------------
+
+.PHONY: all clean create_module build_module clean_module test install uninstall
+
+DEBUG := 
+ifeq ($(DEBUG),)
+CC = gcc
+else
+CC = gcc -g
+endif
 
 TARGET := computer
 
@@ -7,6 +22,7 @@ export DEPS_PATH := $(ROOT_PATH)/deps
 export OBJS_PATH := $(ROOT_PATH)/objs
 export INC_PATH := $(ROOT_PATH)/inc
 export LIB_PATH := $(ROOT_PATH)/lib
+export LIB_EXT_PATH := $(ROOT_PATH)/lib/ext
 
 TARGET_DEP_OBJS := play.o keyboard.o calc.o
 TARGET_DEP_OBJS := $(addprefix $(OBJS_PATH)/, $(TARGET_DEP_OBJS))
@@ -30,7 +46,6 @@ endif
 
 #获取是模块的子目录
 SUBDIRS := $(shell ls -F | grep '/$$')
-#SUBDIRS := usb
 SUBDIRS := $(filter-out objs/, $(SUBDIRS))
 SUBDIRS := $(filter-out deps/, $(SUBDIRS))
 SUBDIRS := $(filter-out inc/, $(SUBDIRS))
@@ -38,7 +53,7 @@ SUBDIRS := $(filter-out lib/, $(SUBDIRS))
 
 #-----------------------------------------------------
 $(TARGET): $(TARGET_DEP_OBJS)
-	gcc -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
 	rm -rf *.o
@@ -66,3 +81,9 @@ clean_module:
 	done
 test:
 	@echo $(CFLAGS)	
+install:
+	cp $(TARGET) /usr/bin
+	cp $(addprefix $(LIB_PATH)/, $(TARGET_DEP_DLIBS)) /usr/lib
+uninstall:
+	rm -rf /usr/bin/$(TARGET)
+	rm -rf $(addprefix /usr/lib/, $(TARGET_DEP_DLIBS))
