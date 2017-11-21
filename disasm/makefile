@@ -1,3 +1,4 @@
+LIB_TYPE := static
 LIB_NAME := libdisasm.a
 LIB_NAME := $(LIB_PATH)/$(LIB_NAME)
 

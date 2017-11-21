@@ -11,13 +11,26 @@ export LIB_PATH := $(ROOT_PATH)/lib
 TARGET_DEP_OBJS := play.o keyboard.o calc.o
 TARGET_DEP_OBJS := $(addprefix $(OBJS_PATH)/, $(TARGET_DEP_OBJS))
 
-#目标程序依赖的静态库
+#目标程序依赖的库
 TARGET_DEP_SLIBS := libdisasm.a libmouse.a
+TARGET_DEP_DLIBS := libusb.so
+
+CFLAGS =
+
 ifneq ($(TARGET_DEP_SLIBS),)
-CFLAGS = -L$(LIB_PATH) $(addprefix -l, $(TARGET_DEP_SLIBS:lib%.a=%))
+CFLAGS += $(addprefix -l, $(TARGET_DEP_SLIBS:lib%.a=%))
+endif
+ifneq ($(TARGET_DEP_DLIBS),)
+CFLAGS += $(addprefix -l, $(TARGET_DEP_DLIBS:lib%.so=%))
 endif
 
+ifneq ($(CFLAGS),)
+CFLAGS += -L$(LIB_PATH)
+endif
+
+#获取是模块的子目录
 SUBDIRS := $(shell ls -F | grep '/$$')
+#SUBDIRS := usb
 SUBDIRS := $(filter-out objs/, $(SUBDIRS))
 SUBDIRS := $(filter-out deps/, $(SUBDIRS))
 SUBDIRS := $(filter-out inc/, $(SUBDIRS))
@@ -35,10 +48,10 @@ clean:
 	rm -rf $(LIB_PATH)/*
 
 create_module:
-	@if [ -z "$$module_name" ]; then	\
-		echo "1";			\
-	else					\
-		echo "2";			\
+	@if [ ! -z "$$module_name" ]; then				\
+		touch $(INC_PATH)/$$module_name.h;			\
+		mkdir -p $(ROOT_PATH)/$$module_name;			\
+		touch $(ROOT_PATH)/$$module_name/$$module_name.c;	\
 	fi				
 
 build_module:
