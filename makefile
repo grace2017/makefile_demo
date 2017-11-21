@@ -3,12 +3,14 @@
 TARGET := computer
 
 export ROOT_PATH := $(shell pwd)
-export OBJS_PATH := $(addsuffix /objs, $(ROOT_PATH))
+export DEPS_PATH := $(ROOT_PATH)/deps
+export OBJS_PATH := $(ROOT_PATH)/objs
 
 TARGET_DEP_OBJS := $(wildcard $(OBJS_PATH)/*.o)
 
 SUBDIRS := $(shell ls -F | grep '/$$')
 SUBDIRS := $(filter-out objs/, $(SUBDIRS))
+SUBDIRS := $(filter-out deps/, $(SUBDIRS))
 
 #-----------------------------------------------------
 $(TARGET): $(TARGET_DEP_OBJS)
@@ -18,6 +20,7 @@ clean:
 	rm -rf *.o
 	rm -rf $(TARGET)
 	rm -rf $(OBJS_PATH)/*.o
+	rm -rf $(DEPS_PATH)/*.d
 
 build_module:
 	@for subdir in $(SUBDIRS); do	\
