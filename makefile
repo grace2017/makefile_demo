@@ -5,12 +5,14 @@ TARGET := computer
 export ROOT_PATH := $(shell pwd)
 export DEPS_PATH := $(ROOT_PATH)/deps
 export OBJS_PATH := $(ROOT_PATH)/objs
+export INC_PATH := $(ROOT_PATH)/inc
 
 TARGET_DEP_OBJS := $(wildcard $(OBJS_PATH)/*.o)
 
 SUBDIRS := $(shell ls -F | grep '/$$')
 SUBDIRS := $(filter-out objs/, $(SUBDIRS))
 SUBDIRS := $(filter-out deps/, $(SUBDIRS))
+SUBDIRS := $(filter-out inc/, $(SUBDIRS))
 
 #-----------------------------------------------------
 $(TARGET): $(TARGET_DEP_OBJS)

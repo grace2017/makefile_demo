@@ -1,6 +1,6 @@
-#include "../keyboard/keyboard.h"
-#include "../mouse/mouse.h"
-#include "../calc/calc.h"
+#include "keyboard.h"
+#include "mouse.h"
+#include "calc.h"
 
 int main()
 {

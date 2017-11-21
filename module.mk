@@ -19,7 +19,7 @@ ifneq ("$(wildcard $(DFILES))",)
 endif
 
 $(DEPS_PATH)/%d: %c
-	gcc -MM $^ | sed 's,\(.*\).o:,$(OBJS_PATH)/\1.o:,g' > $@
+	gcc -I$(INC_PATH) -MM $^ | sed 's,\(.*\).o:,$(OBJS_PATH)/\1.o:,g' > $@
 
 $(OBJS_PATH)/%o:
-	gcc -c -o $@ $(filter %.c, $^)
+	gcc -I$(INC_PATH) -c -o $@ $(filter %.c, $^)
