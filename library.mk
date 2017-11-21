@@ -6,4 +6,3 @@ all: $(LIB_NAME)
 
 $(LIB_NAME): $(LIB_DEP_OBJS)
 	ar rcs $@ $^
-

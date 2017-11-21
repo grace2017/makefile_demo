@@ -8,10 +8,16 @@ export OBJS_PATH := $(ROOT_PATH)/objs
 export INC_PATH := $(ROOT_PATH)/inc
 export LIB_PATH := $(ROOT_PATH)/lib
 
-TARGET_DEP_OBJS := $(wildcard $(OBJS_PATH)/*.o)
+TARGET_DEP_OBJS := play.o keyboard.o calc.o
+TARGET_DEP_OBJS := $(addprefix $(OBJS_PATH)/, $(TARGET_DEP_OBJS))
 
-#SUBDIRS := $(shell ls -F | grep '/$$')
-SUBDIRS := disasm
+#目标程序依赖的静态库
+TARGET_DEP_SLIBS := libdisasm.a libmouse.a
+ifneq ($(TARGET_DEP_SLIBS),)
+CFLAGS = -L$(LIB_PATH) $(addprefix -l, $(TARGET_DEP_SLIBS:lib%.a=%))
+endif
+
+SUBDIRS := $(shell ls -F | grep '/$$')
 SUBDIRS := $(filter-out objs/, $(SUBDIRS))
 SUBDIRS := $(filter-out deps/, $(SUBDIRS))
 SUBDIRS := $(filter-out inc/, $(SUBDIRS))
@@ -19,7 +25,7 @@ SUBDIRS := $(filter-out lib/, $(SUBDIRS))
 
 #-----------------------------------------------------
 $(TARGET): $(TARGET_DEP_OBJS)
-	gcc -o $@ $^
+	gcc -o $@ $^ $(CFLAGS)
 
 clean:
 	rm -rf *.o
@@ -46,4 +52,4 @@ clean_module:
 		cd $(ROOT_PATH);	\
 	done
 test:
-	@echo $(SUBDIRS)	
+	@echo $(CFLAGS)	
