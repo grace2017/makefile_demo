@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all
 
 SOURCES := $(wildcard *.c)
 OBJS := $(SOURCES:.c=.o)
@@ -14,7 +14,3 @@ endif
 	gcc -MM $^ > $@
 %o:
 	gcc -c -o $@ $(filter %.c, $^)
-
-clean:
-	rm -rf *.o
-	rm -rf *.d
