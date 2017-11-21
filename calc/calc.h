@@ -2,8 +2,7 @@
 #define __CALL_H_
 
 #include <stdio.h>
-
-#define CALC_VERSION 1.0
+#include "calc20.h"
 
 void calc_init();
 

@@ -1,7 +1,8 @@
 .PHONY: all
 
-#测试用，实际是由总控makefile传入
-#OBJS_PATH := $(shell pwd)
+#由总控makefile传入的变量
+#OBJS_PATH
+#DEPS_PATH
 
 SOURCES := $(wildcard *.c)
 
