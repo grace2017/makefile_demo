@@ -17,3 +17,16 @@ make clean_module   清除模块
 make install        安装
 make uninstall      卸载
 make test           测试
+
+编译：
+make build_module
+make
+
+安装：
+make install
+
+卸载：
+make uninstall
+
+清除：
+make clean
